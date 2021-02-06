@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} DevCoin - Créer un compte{% endblock %}
+
+{% block body %}
+
+    <div class="d-flex justify-content-center">
+        <div class="col-6">
+
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-secondary"> Créer le profil</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+{% endblock %}
