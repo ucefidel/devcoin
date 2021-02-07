@@ -43,6 +43,13 @@ class AnnonceController extends DefaultController
             $annonce->setUser($user);
             $this->manager->persist($annonce);
             $this->manager->flush();
+
+            $this->addFlash(
+                'success',
+                'Votre annonce est ajouté avec succée'
+            );
+
+            return $this->redirectToRoute('annonce_show_all');
         }
         return $this->render("annonce/new.html.twig",
             [
@@ -58,9 +65,10 @@ class AnnonceController extends DefaultController
      */
     public function showAll(AnnonceRepository $annonceRepository): Response
     {
+        $annonces = $annonceRepository->findByUser($this->security->getUser()->getId());
         return $this->render("annonce/shows_all.html.twig",
             [
-                "annonces" => $annonceRepository->findAll()
+                "annonces" => $annonces
             ]);
     }
 
@@ -98,7 +106,7 @@ class AnnonceController extends DefaultController
 
         $this->addFlash(
             'success',
-            "L'annonce a bien été enregistrée !"
+            "L'annonce a bien été supprimée !"
         );
 
         return $this->redirectToRoute("annonce_show_all");

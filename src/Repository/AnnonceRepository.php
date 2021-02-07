@@ -19,6 +19,20 @@ class AnnonceRepository extends ServiceEntityRepository
         parent::__construct($registry, Annonce::class);
     }
 
+    /**
+     * @param string $userId
+     * @return array
+     */
+    public function findByUser(string $userId): array
+    {
+        return $this->createQueryBuilder('a')
+            ->join('a.user', 'u')
+            ->where('u.id = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Annonce[] Returns an array of Annonce objects
     //  */
