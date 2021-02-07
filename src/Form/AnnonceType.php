@@ -15,7 +15,7 @@ class AnnonceType extends ApplicationType
         $builder
             ->add('title')
             ->add('description')
-            ->add('picture', FileType::class);
+            ->add('picture');
     }
 
     public function configureOptions(OptionsResolver $resolver)

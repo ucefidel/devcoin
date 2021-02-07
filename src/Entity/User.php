@@ -56,17 +56,28 @@ class User implements UserInterface
         $this->annonces = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    /**
+     * @return string
+     */
+    public function getFullName(): string
+    {
+        return substr($this->getLastName(), 0, 1) . ". " . $this->getFirstName();
+    }
+
+    public
+    function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getEmail(): ?string
+    public
+    function getEmail(): ?string
     {
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public
+    function setEmail(string $email): self
     {
         $this->email = $email;
 
@@ -78,15 +89,17 @@ class User implements UserInterface
      *
      * @see UserInterface
      */
-    public function getUsername(): string
+    public
+    function getUsername(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
      * @see UserInterface
      */
-    public function getRoles(): array
+    public
+    function getRoles(): array
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
@@ -95,7 +108,8 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): self
+    public
+    function setRoles(array $roles): self
     {
         $this->roles = $roles;
 
@@ -105,12 +119,14 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getPassword(): string
+    public
+    function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
-    public function setPassword(string $password): self
+    public
+    function setPassword(string $password): self
     {
         $this->password = $password;
 
@@ -120,7 +136,8 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getSalt()
+    public
+    function getSalt()
     {
         // not needed when using the "bcrypt" algorithm in security.yaml
     }
@@ -128,7 +145,8 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public
+    function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
@@ -137,12 +155,14 @@ class User implements UserInterface
     /**
      * @return Collection|Annonce[]
      */
-    public function getAnnonces(): Collection
+    public
+    function getAnnonces(): Collection
     {
         return $this->annonces;
     }
 
-    public function addAnnonce(Annonce $annonce): self
+    public
+    function addAnnonce(Annonce $annonce): self
     {
         if (!$this->annonces->contains($annonce)) {
             $this->annonces[] = $annonce;
@@ -152,7 +172,8 @@ class User implements UserInterface
         return $this;
     }
 
-    public function removeAnnonce(Annonce $annonce): self
+    public
+    function removeAnnonce(Annonce $annonce): self
     {
         if ($this->annonces->removeElement($annonce)) {
             // set the owning side to null (unless already changed)
@@ -164,24 +185,28 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getFirstName(): ?string
+    public
+    function getFirstName(): ?string
     {
         return $this->firstName;
     }
 
-    public function setFirstName(string $firstName): self
+    public
+    function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
 
         return $this;
     }
 
-    public function getLastName(): ?string
+    public
+    function getLastName(): ?string
     {
         return $this->lastName;
     }
 
-    public function setLastName(string $lastName): self
+    public
+    function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
 

@@ -1,26 +1,35 @@
 {% extends "base.html.twig" %}
 
 
-{% block title %}Hello UserController!{% endblock %}
+{% block title "DevCoin - Connexion" %}
 
 {% block body %}
-    <form class="d-flex justify-content-center" action="{{ path('user_login') }}" method="post">
-        <div class="col-5">
-
-
+    <form class="d-flex justify-content-center shadow p-3 mb-5 bg-black rounded"
+          action="{{ path('user_login') }}"
+          method="post"
+    >
+        <div class="col-7">
             <div class="form-group">
                 <label for="email">Email address</label>
-                <input type="email" class="form-control" name="_username" id="email" aria-describedby="emailHelp"
-                       placeholder="Enter email"/>
-                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
-                    else.</small>
+                <input type="email" class="form-control {% if hasError %}is-invalid{% endif %}" name="_username"
+                       id="email"
+                       aria-describedby="emailHelp"
+                       placeholder="Enter email"
+                       value="{{ username }}"
+                />
+                {% if hasError %}
+                    <small id="emailHelp" class="form-text text-danger">
+                        Une erreur est survenue, le nom d'utilisateur ou alors le mot de passe est invalide
+                    </small>
+                {% endif %}
+
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" class="form-control" name="_password" id="password" placeholder="Password">
             </div>
-            <div>
-                <a class="btn" href="{{ path('registration_user') }}">
+            <div class="mb-2">
+                <a href="{{ path('registration_user') }}">
                     Registration now ?
                 </a>
             </div>
