@@ -7,10 +7,13 @@ use App\Entity\User;
 use App\Form\AnnonceType;
 use App\Repository\AnnonceRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AnnonceController extends DefaultController
@@ -86,10 +89,14 @@ class AnnonceController extends DefaultController
      * @IsGranted("ROLE_USER")
      * @param AnnonceRepository $annonceRepository
      * @return Response
+     * @return Response
      */
     public function showAll(AnnonceRepository $annonceRepository): Response
     {
-        $annonces = $annonceRepository->findByUser($this->security->getUser()->getId());
+        /** @var User $users * */
+        $user = $this->security->getUser();
+        $annonces = $annonceRepository->findByUser($user->getId());
+
         return $this->render("annonce/shows_all.html.twig",
             [
                 "annonces" => $annonces
@@ -158,4 +165,5 @@ class AnnonceController extends DefaultController
                 'annonce' => $annonceRepo->find($annonce->getId())
             ]);
     }
+
 }

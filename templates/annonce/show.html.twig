@@ -6,4 +6,16 @@
 
     <h2>Annonce : {{ annonce.id }}</h2>
 
+    <div class="card">
+        <div class="card-title">{{ annonce.title }}</div>
+        <div class="card-img">
+            <img src="{{ asset('uploads/imgAnnonce/'~annonce.picture) }}" height="80" width="80" alt="avatar"/>
+        </div>
+        <div class="card-body">
+            <p>
+                {{ annonce.description }}
+            </p>
+        </div>
+
+    </div>
 {% endblock %}

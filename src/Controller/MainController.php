@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\HistorySearch;
 use App\Entity\User;
 use App\Repository\AnnonceRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -28,7 +29,6 @@ class MainController extends DefaultController
     {
         /** @var User $user */
         $user = $this->security->getUser();
-        dump($user);
         $keyword = $_POST['search'];
         $results = $annonceRepository->findByKeyword($keyword);
         //Save research on DB
@@ -44,5 +44,16 @@ class MainController extends DefaultController
         return $this->render("annonce/result_search.html.twig", [
             'results' => $results
         ]);
+    }
+
+    /**
+     * @Route("/myresearch",name="myresearch_page")
+     * @IsGranted("ROLE_USER")
+     * @return Response
+     */
+    public function myresearch(): Response
+    {
+
+        return $this->render("main/myresearch.html.twig");
     }
 }
