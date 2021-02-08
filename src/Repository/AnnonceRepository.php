@@ -33,6 +33,19 @@ class AnnonceRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @param $keyword
+     * @return array
+     */
+    public function findByKeyword($keyword): array
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.title like :keyword')
+            ->setParameter('keyword', '%' . $keyword . '%')
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Annonce[] Returns an array of Annonce objects
     //  */

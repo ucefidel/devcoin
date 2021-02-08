@@ -1,0 +1,26 @@
+{% extends "base.html.twig" %}
+{% block title "DevCoin - Résultat de la recherche" %}
+
+{% block body %}
+    <h2> Résultat de la recherche</h2>
+    <div class="row">
+
+        {% for annonce in results %}
+            <div class="col-4 mb-2">
+
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ annonce.title }}</h5>
+                        <p class="card-text">
+                            Some quick example text to build on the card title and
+                            make up the bulk of the card's content.
+                        </p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+    </div>
+
+{% endblock %}

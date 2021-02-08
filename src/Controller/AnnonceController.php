@@ -86,6 +86,13 @@ class AnnonceController extends DefaultController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->manager->persist($annonce);
             $this->manager->flush();
+
+            $this->addFlash(
+                'success',
+                'Annonce modifié avec succée'
+            );
+
+            return $this->redirectToRoute("annonce_show_all");
         }
 
         return $this->render("annonce/edit.html.twig",
@@ -112,4 +119,19 @@ class AnnonceController extends DefaultController
         return $this->redirectToRoute("annonce_show_all");
     }
 
+    /**
+     * @Route("annonce/show/{id}", name="show_annonce")
+     * @param Annonce $annonce
+     * @param AnnonceRepository $annonceRepo
+     * @return Response
+     */
+    public function show(Annonce $annonce, AnnonceRepository $annonceRepo): Response
+    {
+
+
+        return $this->render('annonce/show.html.twig',
+            [
+                'annonce' => $annonceRepo->find($annonce->getId())
+            ]);
+    }
 }
