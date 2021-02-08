@@ -7,6 +7,8 @@ use App\Entity\User;
 use App\Form\AnnonceType;
 use App\Repository\AnnonceRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -40,6 +42,28 @@ class AnnonceController extends DefaultController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            // Upload file Image ----------
+            /** @var UploadedFile $fileName */
+            $fileName = $form->get('picture')->getData();
+            dump($fileName);
+            if ($fileName) {
+                $originalFilename = pathinfo($fileName->getClientOriginalExtension(), PATHINFO_FILENAME);
+                $safeFilename = $this->slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $fileName->guessExtension();
+
+                try {
+                    $fileName->move(
+                        $this->getParameter('image_directory'),
+                        $newFilename
+                    );
+
+                } catch (FileException $e) {
+                    dump($e);
+                }
+
+                $annonce->setPicture($newFilename);
+            }
+            // ----------------------------
             $annonce->setUser($user);
             $this->manager->persist($annonce);
             $this->manager->flush();
