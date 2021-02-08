@@ -32,6 +32,12 @@ class HistorySearch
      */
     private $result;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="researchs")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $user;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -74,6 +80,18 @@ class HistorySearch
     public function setResult(string $result): self
     {
         $this->result = $result;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

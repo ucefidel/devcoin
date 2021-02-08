@@ -51,9 +51,15 @@ class User implements UserInterface
      */
     private $lastName;
 
+    /**
+     * @ORM\OneToMany(targetEntity=HistorySearch::class, mappedBy="user")
+     */
+    private $researchs;
+
     public function __construct()
     {
         $this->annonces = new ArrayCollection();
+        $this->researchs = new ArrayCollection();
     }
 
     /**
@@ -195,6 +201,36 @@ class User implements UserInterface
     public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|HistorySearch[]
+     */
+    public function getResearchs(): Collection
+    {
+        return $this->researchs;
+    }
+
+    public function addResearch(HistorySearch $research): self
+    {
+        if (!$this->researchs->contains($research)) {
+            $this->researchs[] = $research;
+            $research->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResearch(HistorySearch $research): self
+    {
+        if ($this->researchs->removeElement($research)) {
+            // set the owning side to null (unless already changed)
+            if ($research->getUser() === $this) {
+                $research->setUser(null);
+            }
+        }
 
         return $this;
     }

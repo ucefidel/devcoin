@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\HistorySearch;
+use App\Entity\User;
 use App\Repository\AnnonceRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,6 +26,9 @@ class MainController extends DefaultController
      */
     public function search(AnnonceRepository $annonceRepository): Response
     {
+        /** @var User $user */
+        $user = $this->security->getUser();
+        dump($user);
         $keyword = $_POST['search'];
         $results = $annonceRepository->findByKeyword($keyword);
         //Save research on DB
@@ -32,7 +36,8 @@ class MainController extends DefaultController
             $research = new HistorySearch();
             $research->setKeyword($keyword);
             $research->setResult(count($results));
-
+            if (!empty($user))
+                $research->setUser($user);
             $this->manager->persist($research);
             $this->manager->flush();
         }
