@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Annonce;
+use App\Entity\Favoris;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -18,13 +19,13 @@ class AppFixtures extends Fixture
         $this->encoder = $encoder;
     }
 
-    public function load(ObjectManager $manager)
+    /**
+     * @param ObjectManager $manager
+     */
+    public function load(ObjectManager $manager): void
     {
-        // $product = new Product();
-        // $manager->persist($product);
 
         $faker = Factory::create("fr_FR");
-        /** @var User[]|[] $users */
         $users = [];
 
         // User Admin --------
@@ -55,12 +56,17 @@ class AppFixtures extends Fixture
         for ($j = 0; $j < 20; $j++) {
             $annonce = new Annonce();
 
-            $user = $users[mt_rand(0, count($users) - 1)];
             $annonce->setTitle($faker->name)
-                ->setUser($user)
+                ->setUser($faker->randomElement($users))
                 ->setDescription($faker->paragraph)
                 ->setPicture($faker->domainName);
             $manager->persist($annonce);
+
+            $favoris = new Favoris();
+            $favoris->setAnnonce($annonce);
+            $favoris->setUser($faker->randomElement($users));
+
+            $manager->persist($favoris);
         }
         $manager->flush();
     }

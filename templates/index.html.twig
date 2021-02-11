@@ -3,7 +3,34 @@
 {% block title %} DevCoin - Page d'accueil {% endblock %}
 
 {% block body %}
-    <h2>
-        Page d'accueil
-    </h2>
+
+    <div class="container">
+        <div class="row">
+            {% for annonce in annonces %}
+                <div class="col-3 mb-3">
+                    <div class="border border-dark rounded p-2">
+                        <h3>{{ annonce.title }}</h3>
+                        <p>{{ annonce.description }}</p>
+                        <a href="{{ path('annonce_favoris',{id:annonce.id}) }}" class="btn btn-link js-annonce">
+                            {% if app.user and annonce.isFavorites(app.user) %}
+                                <i class="fa fa-heart"></i>
+                            {% else %}
+                                <i class="far fa-heart"></i>
+                            {% endif %}
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {{ encore_entry_script_tags('favoris') }}
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+
+
+    </script>
 {% endblock %}

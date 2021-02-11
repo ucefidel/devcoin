@@ -12,10 +12,13 @@ class MainController extends DefaultController
 {
     /**
      * @Route("/", name="main")
+     * @param AnnonceRepository $annonceRepository
+     * @return Response
      */
-    public function index(): Response
+    public function index(AnnonceRepository $annonceRepository): Response
     {
         return $this->render('index.html.twig', [
+            "annonces" => $annonceRepository->findAll()
         ]);
     }
 

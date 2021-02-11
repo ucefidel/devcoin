@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AnnonceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -49,11 +51,17 @@ class Annonce
      */
     private $user;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Favoris::class, mappedBy="annonce")
+     */
+    private $favoris;
+
 
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
+        $this->favoris = new ArrayCollection();
     }
 
     /**
@@ -140,4 +148,45 @@ class Annonce
 
         return $this;
     }
+
+    /**
+     * @return Collection|Favoris[]
+     */
+    public function getFavoris(): Collection
+    {
+        return $this->favoris;
+    }
+
+    public function addFavori(Favoris $favori): self
+    {
+        if (!$this->favoris->contains($favori)) {
+            $this->favoris[] = $favori;
+            $favori->setAnnonce($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavori(Favoris $favori): self
+    {
+        if ($this->favoris->removeElement($favori)) {
+            // set the owning side to null (unless already changed)
+            if ($favori->getAnnonce() === $this) {
+                $favori->setAnnonce(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function isFavorites(User $user): bool
+    {
+        foreach ($this->favoris as $favori) {
+            if ($favori->getUser() === $user) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

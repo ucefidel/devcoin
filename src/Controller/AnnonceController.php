@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Annonce;
+use App\Entity\Favoris;
 use App\Entity\User;
 use App\Form\AnnonceType;
 use App\Repository\AnnonceRepository;
+use App\Repository\FavorisRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -157,5 +159,49 @@ class AnnonceController extends DefaultController
             [
                 'annonce' => $annonceRepo->find($annonce->getId())
             ]);
+    }
+
+    /**
+     * @Route("/annonce/{id}/favoris", name="annonce_favoris")
+     * @param Annonce $annonce
+     * @param FavorisRepository $favorisRepo
+     * @IsGranted("ROLE_USER")
+     * @return Response
+     */
+    public function favoris(Annonce $annonce, FavorisRepository $favorisRepo): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->json([
+                "code" => 403,
+                "message" => "Unauthorized"
+            ], 403);
+        }
+
+        if ($annonce->isFavorites($user)) {
+            $favoris = $favorisRepo->findOneBy([
+                "annonce" => $annonce,
+                "user" => $user
+            ]);
+            $this->manager->remove($favoris);
+            $this->manager->flush();
+
+            return $this->json([
+                "code" => 200,
+                "message" => "Favoris bien supprimée"
+            ], 200);
+        }
+
+        $favoris = new Favoris();
+        $favoris->setUser($user)
+            ->setAnnonce($annonce);
+        $this->manager->persist($favoris);
+        $this->manager->flush();
+
+        return $this->json([
+            'code' => 200, '
+            message' => "Favoris bien enregistré"
+        ], 200);
     }
 }
