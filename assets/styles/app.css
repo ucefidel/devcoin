@@ -3,15 +3,22 @@
     max-height: 128px;
     border-radius: 50%;
 }
+
 .avatar.avatar-medium {
     max-width: 64px;
     max-height: 64px;
 }
+
 .avatar.avatar-mini {
     max-width: 24px;
     max-height: 24px;
 }
+
 .avatar.avatar-micro {
     max-width: 20px;
     max-height: 20px;
+}
+
+.title {
+    border: solid;
 }

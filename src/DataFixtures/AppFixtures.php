@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Annonce;
+use App\Entity\Category;
 use App\Entity\Favoris;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -52,14 +53,26 @@ class AppFixtures extends Fixture
 
             $manager->persist($user);
         }
+        $categories = [];
+        for ($k = 0; $k < 10; $k++) {
+            $category = new Category();
+            $category->setName($faker->company);
 
+            $categories[] = $category;
+            $manager->persist($category);
+        }
         for ($j = 0; $j < 20; $j++) {
             $annonce = new Annonce();
 
             $annonce->setTitle($faker->name)
                 ->setUser($faker->randomElement($users))
                 ->setDescription($faker->paragraph)
-                ->setPicture($faker->domainName);
+                ->setPicture($faker->domainName)
+                ->setPrice($faker->randomFloat())
+                ->setShowing($faker->randomElement([true, false]))
+                ->setLocalisation($faker->country)
+                ->setCategory($faker->randomElement($categories));
+
             $manager->persist($annonce);
 
             $favoris = new Favoris();

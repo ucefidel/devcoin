@@ -56,6 +56,27 @@ class Annonce
      */
     private $favoris;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="annonces")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $price;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $localisation;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $showing;
+
 
     public function __construct()
     {
@@ -187,6 +208,54 @@ class Annonce
             }
         }
         return false;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function getLocalisation(): ?string
+    {
+        return $this->localisation;
+    }
+
+    public function setLocalisation(string $localisation): self
+    {
+        $this->localisation = $localisation;
+
+        return $this;
+    }
+
+    public function getShowing(): ?bool
+    {
+        return $this->showing;
+    }
+
+    public function setShowing(bool $showing): self
+    {
+        $this->showing = $showing;
+
+        return $this;
     }
 
 }

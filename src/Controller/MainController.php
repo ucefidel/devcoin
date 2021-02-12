@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\HistorySearch;
 use App\Entity\User;
 use App\Repository\AnnonceRepository;
+use App\Repository\FavorisRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -39,13 +41,28 @@ class MainController extends DefaultController
             $research = new HistorySearch();
             $research->setKeyword($keyword);
             $research->setResult(count($results));
-            if (!empty($user))
+            if ($user !== null) {
                 $research->setUser($user);
+            }
+
             $this->manager->persist($research);
             $this->manager->flush();
         }
         return $this->render("annonce/result_search.html.twig", [
             'results' => $results
+        ]);
+    }
+
+    /**
+     * @Route("favoris/all" , name="favoris_name")
+     * @IsGranted("ROLE_USER")
+     * @param FavorisRepository $favorisRepo
+     * @return Response
+     */
+    public function favoris(FavorisRepository $favorisRepo): Response
+    {
+        return $this->render('annonce/favoris.html.twig', [
+            "favoris" => $favorisRepo->findAll()
         ]);
     }
 }
