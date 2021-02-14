@@ -1,10 +1,72 @@
 {% extends 'base.html.twig' %}
 
+{% block title "DevCoin - Mon compte" %}
+
 {% block body %}
+    <div class="row">
+        <div class="col shadow-lg p-3 mb-5 bg-white rounded">
+            <div class="d-inline-block">
+                <img src="https://i.pravatar.cc/150?img=55" class="avatar avatar-medium" alt="Avatar de "/>
+                {{ app.user.fullName }}
+            </div>
+            <div class="d-inline-block float-right">
+                <button class="btn btn-outline-primary">
+                    Voir mon profil public
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col shadow p-3 m-3 bg-white rounded">
+            <a href="{{ path('annonce_show_all') }}" style="text-decoration:none;color:black;">
+                <i class="fa fa-money-check h2"></i>
+                <div class="font-weight-bold">Annonces</div>
+                <div class="font-weight-normal">Gérer mes annonces déposés</div>
+            </a>
+        </div>
+        <div class="col shadow p-3 m-3 bg-white rounded">
+            <a href="#" style="text-decoration:none;color:black;">
+                <i class="fab fa-bitcoin h2"></i>
+                <div class="font-weight-bold">Transactions</div>
+                <div class="font-weight-normal">Suivre mes achats et mes ventes</div>
+            </a>
+        </div>
+        <div class="col shadow p-3 m-3 bg-white rounded">
+            <a href="#" style="text-decoration:none;color:black;">
+                <i class="fas fa-umbrella-beach h2"></i>
+                <div class="font-weight-bold">Réservation de vacances</div>
+                <div class="font-weight-normal">Contacter mon hôte et retrouver toutes mes réservations</div>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col shadow p-3 m-3 bg-white rounded">
+            <a href="{{ path('user_update', {id:app.user.id}) }}" style="text-decoration:none;color:black;">
+                <i class="fas fa-user-circle h2"></i>
+                <div class="font-weight-bold">Profil</div>
+                <div class="font-weight-normal">Modifier mon profil public, accéder à mes recommandations et à l’espace
+                    candidat
+                </div>
+            </a>
+        </div>
+        <div class="col shadow p-3 m-3 bg-white rounded">
+            <a href="#" style="text-decoration:none;color:black;">
+                <i class="fas fa-cog h2"></i>
+                <div class="font-weight-bold">Paramètres</div>
+                <div class="font-weight-normal">
+                    Compléter et modifier mes informations privées et préférences
+                </div>
+            </a>
+        </div>
+        <div class="col shadow p-3 m-3 bg-white rounded">
+            <a href="#" style="text-decoration:none;color:black;">
+                <i class="fas fa-shield-alt h2"></i>
+                <div class="font-weight-bold">Connexion et sécurité</div>
+                <div class="font-weight-normal">Protéger mon compte et mettre à jour mon mot de passe</div>
+            </a>
+        </div>
+    </div>
 
 {% endblock %}
 
-{% block title %}
-
-{% endblock %}
 

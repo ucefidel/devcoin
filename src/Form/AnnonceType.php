@@ -6,6 +6,7 @@ use App\Entity\Annonce;
 use App\Entity\Category;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -36,10 +37,12 @@ class AnnonceType extends ApplicationType
             ->add('category', EntityType::class, $this->getConfiguration("Catégorie", "Votre catégorie", [
                 'class' => Category::class,
                 'choice_label' => 'name',
-            ]));
+            ]))
+            ->add('price', IntegerType::class, $this->getConfiguration("Prix", "Prix de l'annonce"))
+            ->add('localisation', TextType::class, $this->getConfiguration("Localisation", "Votre localisation"));
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Annonce::class,

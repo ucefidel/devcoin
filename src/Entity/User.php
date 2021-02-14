@@ -61,6 +61,26 @@ class User implements UserInterface
      */
     private $favoris;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $birthAt;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $phoneNumber;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $adress;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $city;
+
     public function __construct()
     {
         $this->annonces = new ArrayCollection();
@@ -267,6 +287,54 @@ class User implements UserInterface
                 $favori->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBirthAt(): ?\DateTimeInterface
+    {
+        return $this->birthAt;
+    }
+
+    public function setBirthAt(\DateTimeInterface $birthAt): self
+    {
+        $this->birthAt = $birthAt;
+
+        return $this;
+    }
+
+    public function getPhoneNumber(): ?string
+    {
+        return $this->phoneNumber;
+    }
+
+    public function setPhoneNumber(string $phoneNumber): self
+    {
+        $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    public function getAdress(): ?string
+    {
+        return $this->adress;
+    }
+
+    public function setAdress(string $adress): self
+    {
+        $this->adress = $adress;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(string $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }

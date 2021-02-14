@@ -83,12 +83,13 @@ class Annonce
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
         $this->favoris = new ArrayCollection();
+        $this->showing = true;
     }
 
     /**
      * @ORM\PreUpdate()
      */
-    public function updatingData()
+    public function updatingData(): void
     {
         $this->updatedAt = new \DateTime();
     }

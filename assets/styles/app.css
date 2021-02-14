@@ -22,3 +22,7 @@
 .title {
     border: solid;
 }
+
+a {
+    text-decoration: none;
+}

@@ -35,43 +35,21 @@ class AnnonceRepository extends ServiceEntityRepository
 
     /**
      * @param $keyword
+     * @param $localisation
      * @return array
      */
-    public function findByKeyword($keyword): array
+    public function findBySearcher($keyword, $localisation = ""): array
     {
-        return $this->createQueryBuilder('a')
+        $sqlQuery = $this->createQueryBuilder('a')
             ->where('a.title like :keyword')
-            ->setParameter('keyword', '%' . $keyword . '%')
-            ->getQuery()
+            ->setParameter('keyword', '%' . $keyword . '%');
+
+        if ($localisation !== "") {
+            $sqlQuery = $sqlQuery->andWhere('a.localisation like :localisation')
+                ->setParameter('localisation', '%' . $localisation . '%');
+        }
+        return $sqlQuery->getQuery()
             ->getResult();
     }
 
-    // /**
-    //  * @return Annonce[] Returns an array of Annonce objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Annonce
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

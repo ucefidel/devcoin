@@ -13,12 +13,11 @@ class UserController extends DefaultController
 {
 
     /**
-     * @Route("/user", name="user")
+     * @Route("/user", name="user_page")
      */
     public function index(): Response
     {
         return $this->render('user/index.html.twig', [
-            'controller_name' => 'UserController',
         ]);
     }
 
@@ -60,7 +59,6 @@ class UserController extends DefaultController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $hash = $this->encoder->encodePassword($user, $user->getPassword());
-
             $user->setPassword($hash);
 
             $this->manager->persist($user);

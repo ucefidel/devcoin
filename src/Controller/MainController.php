@@ -19,9 +19,21 @@ class MainController extends DefaultController
      */
     public function index(AnnonceRepository $annonceRepository): Response
     {
+        if (!empty($_POST['keyword']) || !empty($_POST['localisation'])) {
+            $keyword = $_POST['keyword'];
+            $localisation = $_POST['localisation'];
+            $annonces = $annonceRepository->findBySearcher($keyword, $localisation);
+
+            dump($annonces);
+            return $this->render("index.html.twig", [
+                "result" => $annonces
+            ]);
+        }
+
         return $this->render('index.html.twig', [
             "annonces" => $annonceRepository->findAll()
         ]);
+
     }
 
     /**
@@ -35,7 +47,7 @@ class MainController extends DefaultController
         $user = $this->security->getUser();
         dump($user);
         $keyword = $_POST['search'];
-        $results = $annonceRepository->findByKeyword($keyword);
+        $results = $annonceRepository->findBySearcher($keyword);
         //Save research on DB
         if (count($results) > 0) {
             $research = new HistorySearch();

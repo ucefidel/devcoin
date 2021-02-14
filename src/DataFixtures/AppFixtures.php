@@ -35,6 +35,10 @@ class AppFixtures extends Fixture
         $user->setFirstName("Youssef")
             ->setLastName("Idelhadj")
             ->setPassword($hash)
+            ->setAdress($faker->address)
+            ->setPhoneNumber($faker->phoneNumber)
+            ->setCity($faker->city)
+            ->setBirthAt($faker->dateTime)
             ->setEmail("yidelhadj@ilyeum.com");
 
         $users[] = $user;
@@ -47,7 +51,11 @@ class AppFixtures extends Fixture
             $user->setEmail($faker->email)
                 ->setFirstName($faker->firstName)
                 ->setLastName($faker->lastName)
-                ->setPassword($hash);
+                ->setPassword($hash)
+                ->setAdress($faker->address)
+                ->setPhoneNumber($faker->phoneNumber)
+                ->setCity($faker->city)
+                ->setBirthAt($faker->dateTime);
 
             $users[] = $user;
 
