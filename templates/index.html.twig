@@ -5,93 +5,87 @@
 {% block body %}
 
     <div class="container">
-    <form class="form m-3 shadow p-3 mb-5 bg-white rounded" method="post" action="{{ path('main') }}">
-
-        <div class="row">
-
-            <div class="col-4">
-                <div class="form-group">
-                    <label class="control-label" for="keyword">Mot clés :</label>
-                    <input class="form-control" type="text" id="keyword" name="keyword" placeholder=""/>
-                </div>
-            </div>
-
-
-            <div class="col-4">
-                <div class="form-group">
-                    <label class="control-label" for="localization">Localisation : </label>
-                    <input class="form-control" type="text" id="localisation" name="localisation" placeholder=""/>
-                </div>
-            </div>
-
-            <div class="col-4">
-                <div class="form-group">
-                    <label class="control-label" for="search"></label>
-
-                    <button class="form-control btn btn-primary" id="search" type="submit">
-                        <i class="fa fa-search"></i>
-                        Recherche
-                    </button>
-                </div>
-            </div>
-        </div>
-    </form>
-
-    {% if result is defined %}
-        <div class="h2 mb-5">Résultat de la recherche :</div>
-        <div class="container">
-            <ul class="list-group">
-                {% for annonce in result %}
-                    <li class="list-group-item mb-2 shadow-sm  p-3 mb-5 bg-white rounded">
-
-                        <div class="row">
-                            <div class="col-4">
-                                <img alt="{{ "Photo" ~ annonce.id }}"
-                                     src={{ "https://loremflickr.com/320/240?lock=" ~ annonce.id }}/>
-                            </div>
-                            <div class="col-8">
-                                <div class="h4">{{ annonce.title }}</div>
-                                <p>{{ annonce.description }}</p>
-                            </div>
-
-                        </div>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% else %}
-        <div class="h2 mb-5">
-            Top des annonces actuelle :
-        </div>
-        <div class="row">
-            {% for annonce in annonces %}
-                <div class="col-4 mb-3 d-flex align-items-stretch">
-                    <div class="border border-dark rounded p-2">
-                        <h3>{{ annonce.title }}</h3>
-                        <img class="img-thumbnail" alt="{{ "Photo" ~ annonce.id }}"
-                             src={{ "https://loremflickr.com/320/240?lock=" ~ annonce.id }}/>
-                        <p>{{ annonce.description }}</p>
-                        <a href="{{ path('annonce_favoris',{id:annonce.id}) }}" class="btn btn-link js-annonce">
-                            {% if app.user and annonce.isFavorites(app.user) %}
-                                <i id="toto" class="fa fa-heart"></i>
-                            {% else %}
-                                <i id="toto" class="far fa-heart"></i>
-                            {% endif %}
-                        </a>
+        <form class="form m-3 shadow p-3 mb-5 bg-white rounded" method="post" action="{{ path('main') }}">
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="control-label" for="keyword">Mot clés :</label>
+                        <input class="form-control" type="text" id="keyword" name="keyword" placeholder=""/>
                     </div>
                 </div>
-            {% endfor %}
-        </div>
-        </div>
-    {% endif %}
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="control-label" for="localisation">Localisation : </label>
+                        <input class="form-control" type="text" id="localisation" name="localisation" placeholder=""/>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="control-label" for="search"></label>
 
+                        <button class="form-control btn btn-primary" id="search" type="submit">
+                            <i class="fa fa-search"></i>
+                            Recherche
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        {% if result is defined %}
+            <div class="h2 mb-5">Résultat de la recherche :</div>
+            <div class="container">
+                <ul class="list-group">
+                    {% for annonce in result %}
+                        <li class="list-group-item mb-2 shadow-sm  p-3 mb-5 bg-white rounded">
+
+                            <div class="row">
+                                <div class="col-4">
+                                    <img alt="{{ "Photo" ~ annonce.id }}"
+                                         src={{ "https://loremflickr.com/320/240?lock=" ~ annonce.id }}/>
+                                </div>
+                                <div class="col-8">
+                                    <div class="h4">{{ annonce.title }}</div>
+                                    <p>{{ annonce.description }}</p>
+                                </div>
+
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <div class="h2 mb-5">
+                Top des annonces actuelle :
+            </div>
+            <div class="row">
+                {% for annonce in annonces %}
+                    <div class="col-4 mb-3 d-flex align-items-stretch">
+                        <div class="border border-dark rounded p-2">
+                            <h3>{{ annonce.title }}</h3>
+                            <img class="img-thumbnail" alt="{{ "Photo" ~ annonce.id }}"
+                                 src={{ "https://loremflickr.com/320/240?lock=" ~ annonce.id }}/>
+                            <p>{{ annonce.description }}</p>
+                            <a href="{{ path('annonce_favoris',{id:annonce.id}) }}" class="btn btn-link js-annonce">
+                                {% if app.user and annonce.isFavorites(app.user) %}
+                                    <i id="toto" class="fa fa-heart"></i>
+                                {% else %}
+                                    <i id="toto" class="far fa-heart"></i>
+                                {% endif %}
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="row">
+                <!-------- Handle Pagination ------->
+                {{ knp_pagination_render(annonces) }}
+                <!---------------------------------->
+            </div>
+        {% endif %}
+    </div>
     {{ encore_entry_script_tags('favoris') }}
 {% endblock %}
 
 {% block javascripts %}
 
-    <script>
-
-
-    </script>
 {% endblock %}

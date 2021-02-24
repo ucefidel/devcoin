@@ -15,10 +15,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class AnnonceController
+ * @package App\Controller
+ * @Route("/annonces")
+ */
 class AnnonceController extends DefaultController
 {
     /**
-     * @Route("/annonces", name="annonces_page")
+     * @Route("/", name="annonces_page")
      */
     public function index(): Response
     {
@@ -27,7 +32,7 @@ class AnnonceController extends DefaultController
     }
 
     /**
-     * @Route("/annonce/new", name="annonce_new")
+     * @Route("/new", name="annonce_new")
      * @IsGranted("ROLE_USER")
      * @param Request $request
      * @return Response
@@ -84,7 +89,7 @@ class AnnonceController extends DefaultController
     }
 
     /**
-     * @Route("annonce/all", name="annonce_show_all")
+     * @Route("/all", name="annonce_show_all")
      * @IsGranted("ROLE_USER")
      * @param AnnonceRepository $annonceRepository
      * @return Response
@@ -99,7 +104,7 @@ class AnnonceController extends DefaultController
     }
 
     /**
-     * @Route("/annonce/edit/{id}", name="annonce_update")
+     * @Route("/edit/{id}", name="annonce_update")
      * @param Annonce $annonce
      * @param Request $request
      * @return Response
@@ -128,7 +133,7 @@ class AnnonceController extends DefaultController
     }
 
     /**
-     * @Route("annonce/delete/{id}", name="annonce_delete")
+     * @Route("/delete/{id}", name="annonce_delete")
      * @param Annonce $annonce
      * @return Response
      */

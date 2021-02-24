@@ -6,7 +6,9 @@ use App\Entity\HistorySearch;
 use App\Entity\User;
 use App\Repository\AnnonceRepository;
 use App\Repository\FavorisRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -15,9 +17,11 @@ class MainController extends DefaultController
     /**
      * @Route("/", name="main")
      * @param AnnonceRepository $annonceRepository
+     * @param PaginatorInterface $paginator
+     * @param Request $request
      * @return Response
      */
-    public function index(AnnonceRepository $annonceRepository): Response
+    public function index(AnnonceRepository $annonceRepository, PaginatorInterface $paginator, Request $request): Response
     {
         if (!empty($_POST['keyword']) || !empty($_POST['localisation'])) {
             $keyword = $_POST['keyword'];
@@ -30,8 +34,15 @@ class MainController extends DefaultController
             ]);
         }
 
+        $donnes = $annonceRepository->findAll();
+        $annonces = $paginator->paginate(
+            $donnes,
+            $request->query->getInt('page', 1),
+            6
+        );
+
         return $this->render('index.html.twig', [
-            "annonces" => $annonceRepository->findAll()
+            "annonces" => $annonces
         ]);
 
     }
