@@ -1,3 +1,8 @@
+/**@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+**/
+
 .avatar {
     max-width: 128px;
     max-height: 128px;
@@ -25,4 +30,9 @@
 
 a {
     text-decoration: none;
+}
+
+.profil {
+    text-decoration: none;
+    color: black;
 }

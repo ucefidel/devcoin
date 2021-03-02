@@ -4,22 +4,24 @@
 
 {% block body %}
     <h3>Modification de l'annonce </h3>
-
+    {{ form_start(form) }}
     <div class="container">
-        {{ form_start(form) }}
 
-        {{ form_row(form.title) }}
-        {{ form_row(form.description) }}
-        {{ form_row(form.localisation) }}
-        {{ form_row(form.price) }}
         <div class="row">
-            <div class="col-6">{{ form_row(form.picture) }}</div>
-            <div class="col-6">{{ form_row(form.category) }}</div>
+            <div class="col-6">{{ form_row(form.title) }}</div>
+            <div class="col-6"> {{ form_row(form.price) }}</div>
         </div>
+        {{ form_row(form.description) }}
+        <div class="row">
+            <div class="col-6">{{ form_row(form.category) }}</div>
+            <div class="col-6"> {{ form_row(form.localisation) }}</div>
+        </div>
+        {{ form_row(form.picture) }}
 
         <button type="submit" class="btn btn-secondary">
             Modifier
         </button>
-        {{ form_end(form) }}
     </div>
+    {{ form_end(form) }}
+
 {% endblock %}

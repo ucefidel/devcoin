@@ -46,13 +46,12 @@ class AnnonceController extends DefaultController
 
         $form = $this->createForm(AnnonceType::class, $annonce);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
 
             // Upload file Image ----------
             /** @var UploadedFile $fileName */
             $fileName = $form->get('picture')->getData();
-            dump($fileName);
+
             if ($fileName) {
                 $originalFilename = pathinfo($fileName->getClientOriginalExtension(), PATHINFO_FILENAME);
                 $safeFilename = $this->slugger->slug($originalFilename);
@@ -65,7 +64,6 @@ class AnnonceController extends DefaultController
                     );
 
                 } catch (FileException $e) {
-                    dump($e);
                 }
 
                 $annonce->setPicture($newFilename);
@@ -151,15 +149,13 @@ class AnnonceController extends DefaultController
     }
 
     /**
-     * @Route("annonce/show/{id}", name="show_annonce")
+     * @Route("/show/{id}", name="show_annonce")
      * @param Annonce $annonce
      * @param AnnonceRepository $annonceRepo
      * @return Response
      */
     public function show(Annonce $annonce, AnnonceRepository $annonceRepo): Response
     {
-
-
         return $this->render('annonce/show.html.twig',
             [
                 'annonce' => $annonceRepo->find($annonce->getId())
@@ -167,7 +163,7 @@ class AnnonceController extends DefaultController
     }
 
     /**
-     * @Route("/annonce/{id}/favoris", name="annonce_favoris")
+     * @Route("/{id}/favoris", name="annonce_favoris")
      * @param Annonce $annonce
      * @param FavorisRepository $favorisRepo
      * @IsGranted("ROLE_USER")
