@@ -205,4 +205,13 @@ class AnnonceController extends DefaultController
             message' => "Favoris bien enregistré"
         ], 200);
     }
+
+    /**
+     * @Route("/export", name="annonce_export")
+     * @return Response
+     */
+    public function export(): Response
+    {
+        return new Response();
+    }
 }

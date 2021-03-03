@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\HistorySearch;
 use App\Entity\User;
+use App\Form\HistorySearchType;
 use App\Repository\AnnonceRepository;
 use App\Repository\FavorisRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -23,13 +24,17 @@ class MainController extends DefaultController
      */
     public function index(AnnonceRepository $annonceRepository, PaginatorInterface $paginator, Request $request): Response
     {
-        if (!empty($_POST['keyword']) || !empty($_POST['localisation'])) {
-            $keyword = $_POST['keyword'];
-            $localisation = $_POST['localisation'];
-            $annonces = $annonceRepository->findBySearcher($keyword, $localisation);
+        $history_search = new HistorySearch();
+        $form = $this->createForm(HistorySearchType::class, $history_search);
+        $form->handleRequest($request);
 
-            dump($annonces);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $keyword = $history_search->getKeyword();
+            $localization = $history_search->getLocalization();
+            $annonces = $annonceRepository->findBySearcher($keyword, $localization);
+
             return $this->render("index.html.twig", [
+                "form" => $form->createView(),
                 "result" => $annonces
             ]);
         }
@@ -42,6 +47,7 @@ class MainController extends DefaultController
         );
 
         return $this->render('index.html.twig', [
+            "form" => $form->createView(),
             "annonces" => $annonces
         ]);
 

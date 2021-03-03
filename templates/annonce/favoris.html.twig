@@ -7,15 +7,23 @@
     <div class="row">
         {% for favori in favoris %}
             {% if app.user and favori.user.id == app.user.id %}
+                {% if 'http' in favori.annonce.picture %}
+                    {% set picture = favori.annonce.picture %}
+                {% else %}
+                    {% set picture = asset('uploads/imgAnnonce/'~ favori.annonce.picture) %}
+                {% endif %}
                 <div class="col-4">
-                    <div class="card">
-                        <div class="card-title">
-                            {{ favori.annonce.title }}
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-title m-3">
+                            <h5>
+                                {{ favori.annonce.title }}
+                            </h5>
                         </div>
+                        <img src="{{ picture }}" class="card-img-top"
+                             alt="Photo d'annonce : {{ favori.annonce.title }}">
                         <div class="card-body">
-                            <div class="card-img">
-                                {{ favori.annonce.description }}
-                            </div>
+
+                            {{ favori.annonce.description | slice(1,60) ~ "..." }}
                         </div>
                     </div>
                 </div>

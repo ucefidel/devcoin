@@ -4,19 +4,52 @@
 
 {% block body %}
 
-    <h2>Annonce : {{ annonce.id }}</h2>
 
     <div class="row">
-        <div class="col-12">
-            <img src="{{ asset('uploads/imgAnnonce/'~ annonce.picture) }}" alt="Test"/>
+        <div class="col-8">
+            {% if 'http' in annonce.picture %}
+                {% set picture = annonce.picture %}
+            {% else %}
+                {% set picture = asset('uploads/imgAnnonce/'~ annonce.picture) %}
+            {% endif %}
+            <img class="corners"
+                 src="{{ picture }}"
+                 alt="Photo de l'annonce {{ annonce.id }}"
+            />
         </div>
+        <div class="col-4">
+            {% set user = annonce.user %}
+            <i class="fas fa-user-alt"></i> {{ user.fullName }}
+            <hr/>
+            <i class="fas fa-phone"></i> {{ user.phoneNumber }}
+            <br>
 
+            <div class=" mt-5 text-center">
+                <button class=" btn btn-outline-info">
+                    <i class="fas fa-envelope"></i>
+                    Contacter
+                    l'annonceur
+                </button>
+            </div>
+
+        </div>
 
     </div>
 
-    <div class="row">
-        <div class="col-6">aaa</div>
-        <div class="col-6">vvvv</div>
+    <div>
+        <h2>{{ annonce.title }}</h2>
+
+    </div>
+    <div>
+        <br/>
+        <h4>  {{ annonce.price | number_format(2,"."," ") }} €</h4>
+    </div>
+    <div>
+        {{ annonce.createdAt | date("Y/m/d à H:m") }}
+    </div>
+    <h5 class="mt-4">Description</h5>
+    <div class="row mt-3">
+        <div class="col-8 text-justify">{{ annonce.description }}</div>
     </div>
 
 {% endblock %}

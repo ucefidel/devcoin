@@ -38,6 +38,11 @@ class HistorySearch
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $localization;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -92,6 +97,18 @@ class HistorySearch
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getLocalization(): ?string
+    {
+        return $this->localization;
+    }
+
+    public function setLocalization(?string $localization): self
+    {
+        $this->localization = $localization;
 
         return $this;
     }

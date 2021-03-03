@@ -19,7 +19,7 @@
             <tr>
                 <td> {{ annonce.id }}</td>
                 <td> {{ annonce.title }}</td>
-                <td class="col-3"> {{ annonce.description }}</td>
+                <td class="col-3"> {{ annonce.description[:170] ~ "..." }}</td>
                 <td> {{ annonce.picture }}</td>
                 <td style="white-space:nowrap;">
                     <a class="btn btn-primary btn-sm" href="{{ path('annonce_update',{id:annonce.id}) }}">
@@ -41,6 +41,15 @@
                     <a class="btn btn-secondary" href="{{ path('annonce_new') }}">
                         <i class="fa fa-plus-square"></i>
                         Déposer une annonce
+                    </a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12" style="text-align: center">
+                    <a class="btn btn-danger" href="{{ path('annonce_export') }}">
+                        <i class="fa fa-file-export"></i>
+                        Exporter les annonces
                     </a>
                 </td>
             </tr>

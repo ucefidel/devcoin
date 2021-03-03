@@ -75,7 +75,7 @@ class AppFixtures extends Fixture
             $annonce->setTitle($faker->name)
                 ->setUser($faker->randomElement($users))
                 ->setDescription($faker->paragraph)
-                ->setPicture($faker->domainName)
+                ->setPicture("https://loremflickr.com/320/240?lock=" . $faker->numberBetween(1, 99))
                 ->setPrice($faker->randomFloat())
                 ->setShowing($faker->randomElement([true, false]))
                 ->setLocalisation($faker->country)
