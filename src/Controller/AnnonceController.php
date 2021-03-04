@@ -8,6 +8,8 @@ use App\Entity\User;
 use App\Form\AnnonceType;
 use App\Repository\AnnonceRepository;
 use App\Repository\FavorisRepository;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -208,10 +210,41 @@ class AnnonceController extends DefaultController
 
     /**
      * @Route("/export", name="annonce_export")
+     * @param AnnonceRepository $annonceRepository
      * @return Response
      */
-    public function export(): Response
+    public function export(AnnonceRepository $annonceRepository): Response
     {
+        $pdfOptions = new Options();
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $pdfOptions->set('defaultFont', 'Arial');
+        $pdfOptions->setIsRemoteEnabled(true);
+
+        $dompdf = new Dompdf($pdfOptions);
+        $context = stream_context_create([
+            'ssl' => [
+                'verify_peer' => FALSE,
+                'verify_peer_name' => FALSE,
+                'allow_self_signed' => TRUE
+            ]
+        ]);
+
+        $dompdf->setHttpContext($context);
+
+        $html = $this->renderView('export/export.html.twig', [
+            'annonces' => $annonceRepository->findByUser($user->getId()),
+        ]);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        $fichier = 'annonce-data-' . $this->getUser()->getId() . '.pdf';
+
+        $dompdf->stream($fichier, [
+            'Attachment' => true
+        ]);
         return new Response();
     }
 }

@@ -17,7 +17,6 @@ class ImportController extends DefaultController
      */
     public function index(Request $request): Response
     {
-
         $form = $this->createForm(ImportType::class);
 
         $form->handleRequest($request);
