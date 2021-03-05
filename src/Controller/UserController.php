@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\PasswordConfirmType;
 use App\Form\UserType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,6 +44,7 @@ class UserController extends DefaultController
      */
     public function logout()
     {
+        // Doing anythings
     }
 
     /**
@@ -90,6 +92,34 @@ class UserController extends DefaultController
             , [
                 "form" => $form->createView()
             ]);
+    }
+
+
+    /**
+     * @Route("user/reset_password/{id}", name="user_reset_password")
+     * @param Request $request
+     * @param User $user
+     * @return Response
+     */
+    public function password(Request $request, User $user): Response
+    {
+        $form = $this->createForm(PasswordConfirmType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $hash = $this->encoder->encodePassword($user, $form->getViewData()->getNewPassword());
+            $user->setPassword($hash);
+
+            $this->manager->persist($user);
+            $this->manager->flush();
+
+            return $this->redirectToRoute('user_login');
+        }
+
+        return $this->render("user/reset_password.html.twig", [
+            "form" => $form->createView()
+        ]);
     }
 
 }

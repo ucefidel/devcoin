@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -18,68 +19,78 @@ class User implements UserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
-    private $email;
+    private string $email;
 
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    private array $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
-    private $password;
+    private string $password;
 
     /**
      * @ORM\OneToMany(targetEntity=Annonce::class, mappedBy="user")
      */
-    private $annonces;
+    private Collection $annonces;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $firstName;
+    private string $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $lastName;
+    private string $lastName;
 
     /**
      * @ORM\OneToMany(targetEntity=HistorySearch::class, mappedBy="user")
      */
-    private $researchs;
+    private Collection $researchs;
 
     /**
      * @ORM\OneToMany(targetEntity=Favoris::class, mappedBy="user")
      */
-    private $favoris;
+    private Collection $favoris;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $birthAt;
+    private \DateTime $birthAt;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $phoneNumber;
+    private string $phoneNumber;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $adress;
+    private string $adress;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $city;
+    private string $city;
+
+    /** @var string $new_password */
+    private string $new_password;
+
+    /**
+     * @var string $confirm_password
+     **
+     * @Assert\EqualTo(propertyPath = "new_password", message = "Vous n'avez pas correctement confirmé votre mot de passe !")
+     */
+    private string $confirm_password;
 
     public function __construct()
     {
@@ -338,4 +349,37 @@ class User implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getConfirmPassword(): string
+    {
+        return $this->confirm_password;
+    }
+
+    /**
+     * @param string $confirm_password
+     */
+    public function setConfirmPassword(string $confirm_password): void
+    {
+        $this->confirm_password = $confirm_password;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNewPassword(): string
+    {
+        return $this->new_password;
+    }
+
+    /**
+     * @param string $new_password
+     */
+    public function setNewPassword(string $new_password): void
+    {
+        $this->new_password = $new_password;
+    }
+
 }

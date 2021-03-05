@@ -247,4 +247,13 @@ class AnnonceController extends DefaultController
         ]);
         return new Response();
     }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function unit(Request $request)
+    {
+        return new Response("Ici");
+    }
 }

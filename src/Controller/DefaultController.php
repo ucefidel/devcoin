@@ -13,10 +13,10 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class DefaultController extends AbstractController
 {
-    protected $manager;
-    protected $encoder;
-    protected $security;
-    protected $slugger;
+    protected EntityManagerInterface $manager;
+    protected UserPasswordEncoderInterface $encoder;
+    protected Security $security;
+    protected SluggerInterface $slugger;
 
     public function __construct(
         EntityManagerInterface $manager,
