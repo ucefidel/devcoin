@@ -117,4 +117,15 @@ class MainController extends DefaultController
 
         return $this->render('email/index.html.twig', []);
     }
+
+    /**
+     * @Route("/myresearch",name="myresearch_page")
+     * @IsGranted("ROLE_USER")
+     * @return Response
+     */
+    public function myresearch(): Response
+    {
+
+        return $this->render("main/myresearch.html.twig");
+    }
 }

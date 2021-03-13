@@ -11,10 +11,13 @@ use App\Repository\FavorisRepository;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -48,6 +51,7 @@ class AnnonceController extends DefaultController
 
         $form = $this->createForm(AnnonceType::class, $annonce);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
 
             // Upload file Image ----------
@@ -66,6 +70,7 @@ class AnnonceController extends DefaultController
                     );
 
                 } catch (FileException $e) {
+                    dump($e);
                 }
 
                 $annonce->setPicture($newFilename);
@@ -96,7 +101,10 @@ class AnnonceController extends DefaultController
      */
     public function showAll(AnnonceRepository $annonceRepository): Response
     {
-        $annonces = $annonceRepository->findByUser($this->security->getUser()->getId());
+        /** @var User $users * */
+        $user = $this->security->getUser();
+        $annonces = $annonceRepository->findByUser($user->getId());
+
         return $this->render("annonce/shows_all.html.twig",
             [
                 "annonces" => $annonces
@@ -158,6 +166,8 @@ class AnnonceController extends DefaultController
      */
     public function show(Annonce $annonce, AnnonceRepository $annonceRepo): Response
     {
+
+
         return $this->render('annonce/show.html.twig',
             [
                 'annonce' => $annonceRepo->find($annonce->getId())
@@ -256,4 +266,5 @@ class AnnonceController extends DefaultController
     {
         return new Response("Ici");
     }
+
 }

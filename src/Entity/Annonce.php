@@ -33,6 +33,7 @@ class Annonce
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @ORM\JoinColumn(nullable=true)
      */
     private string $picture;
 
