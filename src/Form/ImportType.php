@@ -19,6 +19,8 @@ class ImportType extends ApplicationType
                 "constraints" =>
                     [
                         new File([
+
+                            "mimeTypes" => ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"],
                             "mimeTypesMessage" => "Merci de mettre en pièce jointe le fichier CSV"
                         ])
                     ]

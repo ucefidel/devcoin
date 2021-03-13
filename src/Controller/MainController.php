@@ -8,6 +8,8 @@ use App\Form\HistorySearchType;
 use App\Repository\AnnonceRepository;
 use App\Repository\FavorisRepository;
 use App\Repository\HistorySearchRepository;
+use Doctrine\ORM\EntityNotFoundException;
+use http\Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,6 +18,7 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
+
 
 class MainController extends DefaultController
 {
@@ -38,7 +41,14 @@ class MainController extends DefaultController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $keyword = $history_search->getKeyword();
-            $localization = $history_search->getLocalization();
+
+            try {
+                $localization = $history_search->getLocalization();
+            } catch (\Exception $e) {
+                $localization = "";
+            }
+
+            dump($localization);
             $history_search->setUser($user);
 
             $annonces = $annonceRepository->findBySearcher($keyword, $localization);

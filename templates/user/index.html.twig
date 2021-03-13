@@ -8,11 +8,12 @@
             <div class="d-inline-block">
                 <img src="https://i.pravatar.cc/150?img=55" class="avatar avatar-medium" alt="Avatar de "/>
                 {{ app.user.fullName }}
+                
             </div>
             <div class="d-inline-block float-right">
-                <button class="btn btn-outline-primary">
+                <a class="btn btn-outline-primary" href="{{ path('profil_view',{id:app.user.id}) }}">
                     Voir mon profil public
-                </button>
+                </a>
             </div>
         </div>
     </div>

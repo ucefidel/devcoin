@@ -244,7 +244,11 @@ class AnnonceController extends DefaultController
         $dompdf->setHttpContext($context);
 
         $html = $this->renderView('export/export.html.twig', [
-            'annonces' => $annonceRepository->findByUser($user->getId()),
+            'annonces' => $annonceRepository->findby(
+                [
+                    "user" => $user
+                ]
+            )
         ]);
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'portrait');

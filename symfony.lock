@@ -131,14 +131,14 @@
     "ezyang/htmlpurifier": {
         "version": "v4.13.0"
     },
+    "fakerphp/faker": {
+        "version": "v1.13.0"
+    },
     "fig/link-util": {
         "version": "1.1.2"
     },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.3"
-    },
-    "fzaninotto/faker": {
-        "version": "v1.9.2"
     },
     "jolicode/jolinotif": {
         "version": "v2.2.0"
@@ -672,6 +672,9 @@
     },
     "twig/extra-bundle": {
         "version": "v3.2.1"
+    },
+    "twig/intl-extra": {
+        "version": "v3.3.0"
     },
     "twig/twig": {
         "version": "v3.2.1"

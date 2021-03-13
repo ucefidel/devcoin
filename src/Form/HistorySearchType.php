@@ -13,7 +13,9 @@ class HistorySearchType extends ApplicationType
     {
         $builder
             ->add('keyword', TextType::class, $this->getConfiguration("Mot clés", "Mot clés à rechercher"))
-            ->add('localization', TextType::class, $this->getConfiguration("Localisation", "Pays"));
+            ->add('localization', TextType::class, $this->getConfiguration("Localisation", "Pays", [
+                "required" => false
+            ]));
     }
 
     public function configureOptions(OptionsResolver $resolver)

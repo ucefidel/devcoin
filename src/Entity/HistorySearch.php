@@ -41,7 +41,7 @@ class HistorySearch
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private string $localization;
+    private ?string $localization;
 
     /**
      * HistorySearch constructor.
@@ -140,7 +140,7 @@ class HistorySearch
      */
     public function getLocalization(): ?string
     {
-        return $this->localization;
+        return !empty($this->localization) ? $this->localization : null;
     }
 
     /**
