@@ -96,7 +96,7 @@ class UserController extends DefaultController
 
 
     /**
-     * @Route("user/reset_password/{id}", name="user_reset_password")
+     * @Route("/user/{id}/reset_password/", name="user_reset_password")
      * @param Request $request
      * @param User $user
      * @return Response
