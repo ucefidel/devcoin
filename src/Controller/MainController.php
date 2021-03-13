@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\HistorySearchType;
 use App\Repository\AnnonceRepository;
 use App\Repository\FavorisRepository;
+use App\Repository\HistorySearchRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,14 +28,24 @@ class MainController extends DefaultController
      */
     public function index(AnnonceRepository $annonceRepository, PaginatorInterface $paginator, Request $request): Response
     {
+        /** @var User $user */
+        $user = $this->security->getUser();
+
         $history_search = new HistorySearch();
         $form = $this->createForm(HistorySearchType::class, $history_search);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $keyword = $history_search->getKeyword();
             $localization = $history_search->getLocalization();
+            $history_search->setUser($user);
+
             $annonces = $annonceRepository->findBySearcher($keyword, $localization);
+
+            $history_search->setResult("" . count($annonces));
+            $this->manager->persist($history_search);
+            $this->manager->flush();
 
             return $this->render("index.html.twig", [
                 "form" => $form->createView(),
@@ -118,14 +129,5 @@ class MainController extends DefaultController
         return $this->render('email/index.html.twig', []);
     }
 
-    /**
-     * @Route("/myresearch",name="myresearch_page")
-     * @IsGranted("ROLE_USER")
-     * @return Response
-     */
-    public function myresearch(): Response
-    {
 
-        return $this->render("main/myresearch.html.twig");
-    }
 }

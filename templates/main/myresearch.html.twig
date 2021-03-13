@@ -6,4 +6,17 @@
 
     <h2>Mes recherches</h2>
 
+    <div class="row">
+        {% for search in researchs %}
+            <div class="col text-justify">
+                {{ search.keyword }}
+                {{ search.localization }}
+                <a class="btn btn-sm btn-outline-danger " href="{{ path('research_remove',{id:search.id}) }}">
+                    <i class="fas fa-window-close"></i>
+                </a>
+
+            </div>
+        {% endfor %}
+    </div>
+
 {% endblock %}
