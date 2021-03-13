@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use DateTimeInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -65,7 +66,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="datetime")
      */
-    private \DateTime $birthAt;
+    private DateTimeInterface $birthAt;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -115,11 +116,18 @@ class User implements UserInterface
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
+    /**
+     * @param string $email
+     * @return $this
+     */
     public function setEmail(string $email): self
     {
         $this->email = $email;
@@ -149,6 +157,10 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
+    /**
+     * @param array $roles
+     * @return $this
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -164,6 +176,10 @@ class User implements UserInterface
         return (string)$this->password;
     }
 
+    /**
+     * @param string $password
+     * @return $this
+     */
     public function setPassword(string $password): self
     {
         $this->password = $password;
@@ -206,6 +222,10 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @param Annonce $annonce
+     * @return $this
+     */
     public function removeAnnonce(Annonce $annonce): self
     {
         if ($this->annonces->removeElement($annonce)) {
@@ -218,11 +238,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getFirstName(): ?string
     {
         return $this->firstName;
     }
 
+    /**
+     * @param string $firstName
+     * @return $this
+     */
     public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
@@ -230,11 +257,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getLastName(): ?string
     {
         return $this->lastName;
     }
 
+    /**
+     * @param string $lastName
+     * @return $this
+     */
     public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
@@ -250,6 +284,10 @@ class User implements UserInterface
         return $this->researchs;
     }
 
+    /**
+     * @param HistorySearch $research
+     * @return $this
+     */
     public function addResearch(HistorySearch $research): self
     {
         if (!$this->researchs->contains($research)) {
@@ -260,6 +298,10 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @param HistorySearch $research
+     * @return $this
+     */
     public function removeResearch(HistorySearch $research): self
     {
         if ($this->researchs->removeElement($research)) {
@@ -280,6 +322,10 @@ class User implements UserInterface
         return $this->favoris;
     }
 
+    /**
+     * @param Favoris $favori
+     * @return $this
+     */
     public function addFavori(Favoris $favori): self
     {
         if (!$this->favoris->contains($favori)) {
@@ -290,6 +336,10 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @param Favoris $favori
+     * @return $this
+     */
     public function removeFavori(Favoris $favori): self
     {
         if ($this->favoris->removeElement($favori)) {
@@ -302,23 +352,37 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getBirthAt(): ?\DateTimeInterface
+    /**
+     * @return DateTimeInterface|null
+     */
+    public function getBirthAt(): ?DateTimeInterface
     {
         return $this->birthAt;
     }
 
-    public function setBirthAt(\DateTimeInterface $birthAt): self
+    /**
+     * @param DateTimeInterface $birthAt
+     * @return $this
+     */
+    public function setBirthAt(DateTimeInterface $birthAt): self
     {
         $this->birthAt = $birthAt;
 
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getPhoneNumber(): ?string
     {
         return $this->phoneNumber;
     }
 
+    /**
+     * @param string $phoneNumber
+     * @return $this
+     */
     public function setPhoneNumber(string $phoneNumber): self
     {
         $this->phoneNumber = $phoneNumber;
@@ -326,11 +390,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getAdress(): ?string
     {
         return $this->adress;
     }
 
+    /**
+     * @param string $adress
+     * @return $this
+     */
     public function setAdress(string $adress): self
     {
         $this->adress = $adress;
@@ -338,11 +409,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getCity(): ?string
     {
         return $this->city;
     }
 
+    /**
+     * @param string $city
+     * @return $this
+     */
     public function setCity(string $city): self
     {
         $this->city = $city;

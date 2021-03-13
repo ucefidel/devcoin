@@ -17,33 +17,46 @@ class Category
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private string $name;
 
     /**
      * @ORM\OneToMany(targetEntity=Annonce::class, mappedBy="category")
      */
-    private $annonces;
+    private Collection $annonces;
 
+    /**
+     * Category constructor.
+     */
     public function __construct()
     {
         $this->annonces = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     * @return $this
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -59,6 +72,10 @@ class Category
         return $this->annonces;
     }
 
+    /**
+     * @param Annonce $annonce
+     * @return $this
+     */
     public function addAnnonce(Annonce $annonce): self
     {
         if (!$this->annonces->contains($annonce)) {
@@ -69,6 +86,10 @@ class Category
         return $this;
     }
 
+    /**
+     * @param Annonce $annonce
+     * @return $this
+     */
     public function removeAnnonce(Annonce $annonce): self
     {
         if ($this->annonces->removeElement($annonce)) {

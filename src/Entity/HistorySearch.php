@@ -15,49 +15,62 @@ class HistorySearch
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $keyword;
+    private string $keyword;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $createdAt;
+    private \DateTimeInterface $createdAt;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $result;
+    private string $result;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="researchs")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $user;
+    private User $user;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $localization;
+    private string $localization;
 
+    /**
+     * HistorySearch constructor.
+     */
     public function __construct()
     {
         $this->createdAt = new \DateTime();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getKeyword(): ?string
     {
         return $this->keyword;
     }
 
+    /**
+     * @param string $keyword
+     * @return $this
+     */
     public function setKeyword(string $keyword): self
     {
         $this->keyword = $keyword;
@@ -65,11 +78,18 @@ class HistorySearch
         return $this;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
+    /**
+     * @param \DateTimeInterface $createdAt
+     * @return $this
+     */
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
@@ -77,11 +97,18 @@ class HistorySearch
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getResult(): ?string
     {
         return $this->result;
     }
 
+    /**
+     * @param string $result
+     * @return $this
+     */
     public function setResult(string $result): self
     {
         $this->result = $result;
@@ -89,24 +116,38 @@ class HistorySearch
         return $this;
     }
 
+    /**
+     * @return User|null
+     */
     public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    /**
+     * @param User $user
+     * @return $this
+     */
+    public function setUser(User $user): self
     {
         $this->user = $user;
 
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getLocalization(): ?string
     {
         return $this->localization;
     }
 
-    public function setLocalization(?string $localization): self
+    /**
+     * @param string $localization
+     * @return $this
+     */
+    public function setLocalization(string $localization): self
     {
         $this->localization = $localization;
 

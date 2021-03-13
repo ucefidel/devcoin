@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\FavorisRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,41 +16,58 @@ class Favoris
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Annonce::class, inversedBy="favoris")
      */
-    private $annonce;
+    private Annonce $annonce;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="favoris")
      */
-    private $user;
+    private User $user;
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return Annonce|null
+     */
     public function getAnnonce(): ?Annonce
     {
         return $this->annonce;
     }
 
-    public function setAnnonce(?Annonce $annonce): self
+    /**
+     * @param Annonce $annonce
+     * @return $this
+     */
+    public function setAnnonce(Annonce $annonce): self
     {
         $this->annonce = $annonce;
 
         return $this;
     }
 
+    /**
+     * @return User|null
+     */
     public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    /**
+     * @param User $user
+     * @return $this
+     */
+    public function setUser(User $user): self
     {
         $this->user = $user;
 

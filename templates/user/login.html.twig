@@ -10,6 +10,7 @@
     >
         <div class="col-6  shadow p-3 mb-5 bg-black rounded">
             <div class="form-group">
+                <i class="fas fa-envelope"></i>
                 <label for="email">Email address</label>
                 <input type="email" class="form-control {% if hasError %}is-invalid{% endif %}" name="_username"
                        id="email"
@@ -25,6 +26,7 @@
 
             </div>
             <div class="form-group">
+                <i class="fas fa-unlock"></i>
                 <label for="password">Password</label>
                 <input type="password" class="form-control" name="_password" id="password" placeholder="Password">
             </div>
@@ -33,7 +35,12 @@
                     Registration now ?
                 </a>
             </div>
-            <button type="submit" class="btn btn-success">Submit</button>
+            <div>
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-check"></i>
+                    Submit
+                </button>
+            </div>
         </div>
     </form>
 {% endblock %}

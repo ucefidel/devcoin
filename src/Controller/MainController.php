@@ -11,6 +11,9 @@ use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends DefaultController
@@ -83,7 +86,7 @@ class MainController extends DefaultController
     }
 
     /**
-     * @Route("favoris/all" , name="favoris_name")
+     * @Route("favorisall" , name="favoris_name")
      * @IsGranted("ROLE_USER")
      * @param FavorisRepository $favorisRepo
      * @return Response
@@ -93,5 +96,25 @@ class MainController extends DefaultController
         return $this->render('annonce/favoris.html.twig', [
             "favoris" => $favorisRepo->findAll()
         ]);
+    }
+
+    /**
+     * @Route("/emailtest", name="test_email")
+     * @param MailerInterface $mailer
+     * @return Response
+     * @throws TransportExceptionInterface
+     */
+    public function send(MailerInterface $mailer): Response
+    {
+        $email = (new Email())
+            ->from('test@gmail.com')
+            ->to('reply@gmail.com')
+            ->subject('test')
+            ->text('test')
+            ->html('<b> test un html </b>');
+
+        $mailer->send($email);
+
+        return $this->render('email/index.html.twig', []);
     }
 }
