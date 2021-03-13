@@ -10,10 +10,11 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use DateTime;
 
 class AppFixtures extends Fixture
 {
-    private $encoder;
+    private UserPasswordEncoderInterface $encoder;
 
     public function __construct(UserPasswordEncoderInterface $encoder)
     {
@@ -36,8 +37,12 @@ class AppFixtures extends Fixture
             ->setLastName("Idelhadj")
             ->setPassword($hash)
             ->setAdress($faker->address)
+            ->setUsername($faker->userName)
+            ->setCreatedAt(new DateTime())
+            ->setUpdatedAt(new DateTime())
             ->setPhoneNumber($faker->phoneNumber)
             ->setCity($faker->city)
+            ->setCountry($faker->country)
             ->setBirthAt($faker->dateTime)
             ->setEmail("yidelhadj@ilyeum.com");
 
@@ -52,6 +57,10 @@ class AppFixtures extends Fixture
                 ->setFirstName($faker->firstName)
                 ->setLastName($faker->lastName)
                 ->setPassword($hash)
+                ->setUsername($faker->userName)
+                ->setCreatedAt(new DateTime())
+                ->setUpdatedAt(new DateTime())
+                ->setCountry($faker->country)
                 ->setAdress($faker->address)
                 ->setPhoneNumber($faker->phoneNumber)
                 ->setCity($faker->city)

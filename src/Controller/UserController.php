@@ -122,4 +122,16 @@ class UserController extends DefaultController
         ]);
     }
 
+    /**
+     * @Route("/profil/{id}", name="profil_view")
+     * @param User $user
+     * @return Response
+     */
+    public function profil(User $user): Response
+    {
+        return $this->render("user/profil.html.twig", [
+            "user" => $user
+        ]);
+    }
+
 }
