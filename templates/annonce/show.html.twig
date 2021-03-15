@@ -4,64 +4,93 @@
 
 {% block body %}
 
+    <div class="container mb-5">
 
-    <div class="row">
-        <div class="col-8">
-            {% if 'http' in annonce.picture %}
-                {% set picture = annonce.picture %}
-            {% else %}
-                {% set picture = asset('uploads/imgAnnonce/'~ annonce.picture) %}
-            {% endif %}
-            <img class="corners"
-                 src="{{ picture }}"
-                 alt="Photo de l'annonce {{ annonce.id }}"
-            />
-        </div>
-        <div class="col-4">
-            {% set user = annonce.user %}
-            <i class="fas fa-user-alt"></i> {{ user.fullName }}
-            <hr/>
-            <i class="fas fa-phone"></i> {{ user.phoneNumber }}
-            <br>
+        <div class="row">
+            <div class="col-8">
+                {% if 'http' in annonce.picture %}
+                    {% set picture = annonce.picture %}
+                {% else %}
+                    {% set picture = asset('uploads/imgAnnonce/'~ annonce.picture) %}
+                {% endif %}
+                <img class="corners"
+                     src="{{ picture }}"
+                     alt="Photo de l'annonce {{ annonce.id }}"
+                />
+            </div>
+            <div class="col-4">
+                {% set user = annonce.user %}
+                <i class="fas fa-user-alt"></i> {{ user.fullName }}
+                <hr/>
+                <i class="fas fa-phone"></i> {{ user.phoneNumber }}
+                <br>
 
-            <div class=" mt-5 text-center">
-                <button class=" btn btn-outline-info">
-                    <i class="fas fa-envelope"></i>
-                    Contacter
-                    l'annonceur
-                </button>
+                <div class=" mt-5">
+                    <button class=" btn btn-outline-info"
+                            data-toggle="modal" data-target="#modal_{{ annonce.id }}">
+                        <i class="fas fa-envelope"></i>
+                        Contacter
+                        l'annonceur
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="modal_{{ annonce.id }}" tabindex="-1" role="dialog"
+                         aria-labelledby="modal_{{ annonce.id }}Label" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <form action="{{ path('send_email',{id:annonce.id}) }}" method="post">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modal_{{ annonce.id }}Label">
+                                            Envoyer un mail à l'annonceur
+                                        </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="messageEmail">Message :</label>
+                                            <textarea class="form-control" id="messageEmail" name="messageEmail"
+                                                      aria-describedby="emailHelp" rows="3">
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fa fa-paper-plane"></i>
+                                            Envoyer
+                                        </button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                            <i class="fa fa-window-close"></i>
+                                            Fermer
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
 
         </div>
 
-    </div>
+        <div>
+            <h2>{{ annonce.title }}</h2>
 
-    <div>
-        <h2>{{ annonce.title }}</h2>
-
-    </div>
-    <div>
-        <br/>
-        <h4>  {{ annonce.price | number_format(2,"."," ") }} €</h4>
-    </div>
-    <div>
-        {{ annonce.createdAt | date("Y/m/d à H:m") }}
-    </div>
-    <h5 class="mt-4">Description</h5>
-    <div class="row mt-3">
-        <div class="col-8 text-justify">{{ annonce.description }}</div>
-    </div>
-
-    <div class="card">
-        <div class="card-title">{{ annonce.title }}</div>
-        <div class="card-img">
-            <img src="{{ asset('uploads/imgAnnonce/'~annonce.picture) }}" height="80" width="80" alt="avatar"/>
         </div>
-        <div class="card-body">
-            <p>
-                {{ annonce.description }}
-            </p>
+        <div>
+            <br/>
+            <h4>  {{ annonce.price | number_format(2,"."," ") }} €</h4>
         </div>
-
+        <div>
+            {{ annonce.createdAt | date("Y/m/d à H:m") }}
+        </div>
+        <h5 class="mt-4">Description</h5>
+        <div class="row mt-3">
+            <div class="col-8 text-justify">{{ annonce.description }}</div>
+        </div>
     </div>
+
+
 {% endblock %}

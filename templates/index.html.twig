@@ -56,20 +56,23 @@
             <div class="h2 mb-5">
                 Top des annonces actuelle :
             </div>
-            <div class="row">
+            <div class="row d-flex justify-content-center">
                 {% for annonce in annonces %}
-                    <div class="col-4 mb-3 d-flex align-items-stretch">
-                        <div class="border border-dark rounded p-2">
-                            <h3>{{ annonce.title }}</h3>
-                            <img class="img-thumbnail" alt="{{ "Photo" ~ annonce.id }}"
-                                 src={{ "https://loremflickr.com/320/240?lock=" ~ annonce.id }}/>
-                            <p>{{ annonce.description }}</p>
-                            <a href="{{ path('annonce_favoris',{id:annonce.id}) }}" class="btn btn-link js-annonce">
-                                {% if app.user and annonce.isFavorites(app.user) %}
-                                    <i id="toto" class="fa fa-heart"></i>
-                                {% else %}
-                                    <i id="toto" class="far fa-heart"></i>
-                                {% endif %}
+                    <div class="card m-3 border border-dark rounded p-2" style="width: 18rem;">
+                        <img class="card-img-top" alt="{{ "Photo" ~ annonce.id }}"
+                             src={{ "https://loremflickr.com/320/240?lock=" ~ annonce.id }}/>
+                        <div class="card-body">
+
+                            <h5>{{ annonce.title }}</h5>
+                            <p>{{ annonce.price | number_format(2,".", " ")~ " €" }}
+                                - {{ annonce.updatedAt | date("d/m/Y") }}</p>
+
+                        </div>
+                        <div class="card-footer">
+                            <a class="card-link justify-content-right"
+                               href="{{ path('show_annonce',{id:annonce.id}) }}">
+                                <i class="fas fa-eye"></i>
+                                Détails
                             </a>
                         </div>
                     </div>

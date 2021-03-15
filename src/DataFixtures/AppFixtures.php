@@ -81,7 +81,7 @@ class AppFixtures extends Fixture
         for ($j = 0; $j < 20; $j++) {
             $annonce = new Annonce();
 
-            $annonce->setTitle($faker->name)
+            $annonce->setTitle($faker->catchPhrase())
                 ->setUser($faker->randomElement($users))
                 ->setDescription($faker->paragraph)
                 ->setPicture("https://loremflickr.com/320/240?lock=" . $faker->numberBetween(1, 99))

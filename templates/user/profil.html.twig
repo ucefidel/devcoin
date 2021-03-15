@@ -7,8 +7,8 @@
     <div class="container">
         <div class="row border rounded p-4">
             <div class="col-1">
-                <img src="https://i.pravatar.cc/150?img=55" class="avatar avatar-medium" alt="Avatar de "/>
-
+                <img src="{{ "https://i.pravatar.cc/150?img=" ~ user.id }}" class="avatar avatar-medium"
+                     alt="Avatar de "/>
             </div>
             <div class="col-8">
                 {{ user.fullName }} <br>
@@ -25,14 +25,14 @@
                 </a>
             </div>
         </div>
-            <div class="row">
-                <div class="col">
-
-                </div>
-            </div>
         <div class="row">
-
+            {% for annonce in annonces %}
+                <div class="col">
+                    {{ annonce.title }}
+                </div>
+            {% endfor %}
         </div>
+
     </div>
 
 {% endblock %}

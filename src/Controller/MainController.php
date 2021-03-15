@@ -2,20 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Annonce;
 use App\Entity\HistorySearch;
 use App\Entity\User;
 use App\Form\HistorySearchType;
 use App\Repository\AnnonceRepository;
 use App\Repository\FavorisRepository;
-use App\Repository\HistorySearchRepository;
-use Doctrine\ORM\EntityNotFoundException;
-use http\Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -120,13 +116,15 @@ class MainController extends DefaultController
     }
 
     /**
-     * @Route("/emailtest", name="test_email")
-     * @param MailerInterface $mailer
+     * @Route("/send/{id}/email", name="send_email")
+     * @IsGranted("ROLE_USER")
+     * @param Annonce $annonce
      * @return Response
-     * @throws TransportExceptionInterface
      */
-    public function send(MailerInterface $mailer): Response
+    public function send(Annonce $annonce): Response
     {
+
+        dump($_POST['messageEmail']);
         $email = (new Email())
             ->from('test@gmail.com')
             ->to('reply@gmail.com')
@@ -134,7 +132,7 @@ class MainController extends DefaultController
             ->text('test')
             ->html('<b> test un html </b>');
 
-        $mailer->send($email);
+        //$mailer->send($email);
 
         return $this->render('email/index.html.twig', []);
     }

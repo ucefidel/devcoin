@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\PasswordConfirmType;
 use App\Form\UserType;
+use App\Repository\AnnonceRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -125,12 +126,16 @@ class UserController extends DefaultController
     /**
      * @Route("/profil/{id}", name="profil_view")
      * @param User $user
+     * @param AnnonceRepository $annonceRepository
      * @return Response
      */
-    public function profil(User $user): Response
+    public function profil(User $user, AnnonceRepository $annonceRepository): Response
     {
         return $this->render("user/profil.html.twig", [
-            "user" => $user
+            "user" => $user,
+            "annonces" => $annonceRepository->findBy([
+                "user" => $user
+            ])
         ]);
     }
 
