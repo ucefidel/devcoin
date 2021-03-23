@@ -8,16 +8,25 @@ use App\Entity\User;
 use App\Form\HistorySearchType;
 use App\Repository\AnnonceRepository;
 use App\Repository\FavorisRepository;
+use App\Service\EmailService;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
+use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Swift_Mailer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 
 class MainController extends DefaultController
 {
+
+
     /**
      * @Route("/", name="main")
      * @param AnnonceRepository $annonceRepository
@@ -40,7 +49,7 @@ class MainController extends DefaultController
 
             try {
                 $localization = $history_search->getLocalization();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $localization = "";
             }
 
@@ -119,22 +128,34 @@ class MainController extends DefaultController
      * @Route("/send/{id}/email", name="send_email")
      * @IsGranted("ROLE_USER")
      * @param Annonce $annonce
+     * @param MailerInterface $mailer
+     * @param AnnonceRepository $annonceRepository
      * @return Response
+     * @throws TransportExceptionInterface
      */
-    public function send(Annonce $annonce): Response
+    public function send(Annonce $annonce, MailerInterface $mailer, AnnonceRepository $annonceRepository): Response
     {
+        /** @var User $user */
+        $user = $this->security->getUser();
 
-        dump($_POST['messageEmail']);
-        $email = (new Email())
-            ->from('test@gmail.com')
-            ->to('reply@gmail.com')
-            ->subject('test')
-            ->text('test')
-            ->html('<b> test un html </b>');
+        $advertiser = $annonceRepository->findEmailOfAds($annonce->getId());
 
-        //$mailer->send($email);
+        $subject = $_POST['subjectEmail'];
+        $message = $_POST['messageEmail'];
 
-        return $this->render('email/index.html.twig', []);
+        dump($advertiser);
+        
+        $message = (new Email())
+            ->from($user->getEmail())
+            ->to($advertiser)
+            ->subject($subject)
+            ->text(
+                $message
+            );
+
+        $mailer->send($message);
+
+        return $this->redirectToRoute("main");
     }
 
 

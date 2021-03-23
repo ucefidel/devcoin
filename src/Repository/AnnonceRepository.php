@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Annonce;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -39,4 +41,20 @@ class AnnonceRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @param string $idAnnonce
+     * @return int|mixed|string
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function findEmailOfAds(string $idAnnonce)
+    {
+        return $this->createQueryBuilder('a')
+            ->join('a.user', 'u')
+            ->select('u.email')
+            ->where('a.id = :idAnnonce')
+            ->setParameter('idAnnonce', $idAnnonce)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

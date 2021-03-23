@@ -9,16 +9,6 @@ use Symfony\Bridge\Monolog\Handler\SwiftMailerHandler;
 
 class EmailService
 {
-    /**
-     * @var Swift_Mailer $mailer
-     */
-    private Swift_Mailer $mailer;
-
-    public function __construct(Swift_Mailer $mailer)
-    {
-
-        $this->mailer = $mailer;
-    }
 
     /**
      * @param string $sender
@@ -27,10 +17,12 @@ class EmailService
      * @param string $body
      * @param $template
      * @param string $contentType
-     * @return int
+     * @param Swift_Mailer $mailer
+     * @return bool
      */
-    public function send(string $sender, string $receiver, string $subject, string $body, $template, string $contentType = ""): int
+    public function send(Swift_Mailer $mailer, string $sender, string $receiver, string $subject, string $body, $template, string $contentType = ""): bool
     {
+
         $message = (new \Swift_Message($subject))
             ->setFrom($sender)
             ->setTo($receiver)
@@ -39,10 +31,13 @@ class EmailService
                 $contentType
             );
 
-        return $this->mailer->send($message);
+        $mailer->send($message);
+
+        return true;
     }
 
-    public function template(){
+    public function template()
+    {
 
     }
 }

@@ -62,11 +62,11 @@
                         <img class="card-img-top" alt="{{ "Photo" ~ annonce.id }}"
                              src={{ "https://loremflickr.com/320/240?lock=" ~ annonce.id }}/>
                         <div class="card-body">
-
                             <h5>{{ annonce.title }}</h5>
-                            <p>{{ annonce.price | number_format(2,".", " ")~ " €" }}
-                                - {{ annonce.updatedAt | date("d/m/Y") }}</p>
-
+                            <p>
+                                {{ annonce.price | number_format(2,".", " ")~ " €" }}
+                                - {{ annonce.updatedAt | date("d/m/Y") }}
+                            </p>
                         </div>
                         <div class="card-footer">
                             <a class="card-link justify-content-right"
@@ -86,7 +86,11 @@
         {% endif %}
     </div>
     {{ encore_entry_script_tags('favoris') }}
+
+    {% include 'footer.html.twig' %}
+
 {% endblock %}
+
 
 {% block javascripts %}
 
