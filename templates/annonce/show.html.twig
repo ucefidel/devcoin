@@ -18,68 +18,83 @@
                      alt="Photo de l'annonce {{ annonce.id }}"
                 />
             </div>
-            <div class="col-4">
+            <div class="col-4 ">
                 {% set user = annonce.user %}
                 <i class="fas fa-user-alt"></i> {{ user.fullName }}
                 <hr/>
                 <i class="fas fa-phone"></i> {{ user.phoneNumber }}
                 <br>
 
-                <div class=" mt-5">
+                <div class="text-center mt-5 ">
                     <button class=" btn btn-outline-info"
                             data-toggle="modal" data-target="#modal_{{ annonce.id }}">
                         <i class="fas fa-envelope"></i>
                         Contacter
                         l'annonceur
                     </button>
-                    <!-- Modal -->
-                    <div class="modal fade" id="modal_{{ annonce.id }}" tabindex="-1" role="dialog"
-                         aria-labelledby="modal_{{ annonce.id }}Label" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <form action="{{ path('send_email',{id:annonce.id}) }}" method="post">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="modal_{{ annonce.id }}Label">
-                                            Envoyer un mail à l'annonceur
-                                        </h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <label for="subjectEmail">Sujet :</label>
-                                            <input type="text" class="form-control" id="subjectEmail"
-                                                   name="subjectEmail"
-                                                   aria-describedby="emailHelp">
-                                            </input>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="messageEmail">Message :</label>
-                                            <textarea class="form-control" id="messageEmail" name="messageEmail"
-                                                      aria-describedby="emailHelp">
-                                            </textarea>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary">
-                                            <i class="fa fa-paper-plane"></i>
-                                            Envoyer
-                                        </button>
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                            <i class="fa fa-window-close"></i>
-                                            Fermer
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                </div>
+                <hr/>
 
+                <div>
+                    {% if app.user %}
+                        <a class="outline-danger">
+                            <i class="fas fa-trash-alt"></i>
+                            Supprimer
+                        </a>
+                        <a class=" ml-4 outline-danger" href="{{ path('annonce_update',{id:annonce.id}) }}">
+                            <i class="fas fa-pencil-alt"></i>
+                            Modifier
+                        </a>
+                    {% endif %}
                 </div>
 
             </div>
 
+
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modal_{{ annonce.id }}" tabindex="-1" role="dialog"
+             aria-labelledby="modal_{{ annonce.id }}Label" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <form action="{{ path('send_email',{id:annonce.id}) }}" method="post">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modal_{{ annonce.id }}Label">
+                                Envoyer un mail à l'annonceur
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="subjectEmail">Sujet :</label>
+                                <input type="text" class="form-control" id="subjectEmail"
+                                       name="subjectEmail"
+                                       aria-describedby="emailHelp">
+                                </input>
+                            </div>
+                            <div class="form-group">
+                                <label for="messageEmail">Message :</label>
+                                <textarea class="form-control" id="messageEmail" name="messageEmail"
+                                          aria-describedby="emailHelp">
+                                            </textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-paper-plane"></i>
+                                Envoyer
+                            </button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                <i class="fa fa-window-close"></i>
+                                Fermer
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
 
         <div>

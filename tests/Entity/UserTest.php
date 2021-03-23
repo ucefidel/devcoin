@@ -11,6 +11,8 @@ class UserTest extends TestCase
     public function first_test()
     {
         $userTest = new User();
+        $userTest->setFirstName("Youssef")
+            ->setLastName("Idelhadj");
 
         $this->assertEquals(
             substr($userTest->getLastName(), 0, 1) . ". " . $userTest->getFirstName(),
