@@ -64,6 +64,8 @@ class AnnonceController extends DefaultController
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $fileName->guessExtension();
 
                 try {
+                    $a = $this->createForm("p");
+                    $aaa = $http_response_header->
                     $fileName->move(
                         $this->getParameter('image_directory'),
                         $newFilename
